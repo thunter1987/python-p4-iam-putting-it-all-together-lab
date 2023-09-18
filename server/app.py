@@ -90,7 +90,16 @@ class Logout(Resource):
         return {'error': '401 Unauthorized'}, 401
 
 class RecipeIndex(Resource):
-    pass
+
+    def get(self):
+
+        if session.get('user_id'):
+
+            user = User.query.filter(User.id == session['user_id']).first()
+
+            return [recipe.to_dict() for recipe in user.recipes], 200
+        
+        return {'error': '401 Unauthorized'}, 401
 
 api.add_resource(Signup, '/signup', endpoint='signup')
 api.add_resource(CheckSession, '/check_session', endpoint='check_session')
