@@ -77,7 +77,7 @@ class Login(Resource):
 
         return {'error': '401 Unauthorized'}, 401
     
-    class Logout(Resource):
+class Logout(Resource):
     
     def delete(self):
         
