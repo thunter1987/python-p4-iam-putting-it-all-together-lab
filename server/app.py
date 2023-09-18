@@ -59,10 +59,23 @@ class CheckSession(Resource):
         return {'error': '401 Unauthorized'}, 401
 
 class Login(Resource):
-    pass
+    
+    def post(self):
 
-class Logout(Resource):
-    pass
+        request_json = request.get_json()
+
+        username = request_json.get('username')
+        password = request_json.get('password')
+
+        user = User.query.filter(User.username == username).first()
+
+        if user:
+            if user.authenticate(password):
+
+                session['user_id'] = user.id
+                return user.to_dict(), 200
+
+        return {'error': '401 Unauthorized'}, 401
 
 class RecipeIndex(Resource):
     pass
